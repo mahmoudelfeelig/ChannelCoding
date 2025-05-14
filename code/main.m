@@ -35,6 +35,8 @@ fprintf('Reading %s ...\n',aviFile);
 vidObj          = VideoReader(aviFile);
 H               = vidObj.Height;  W = vidObj.Width;
 framesOriginal  = read(vidObj);
+maxFrames      = 5;
+nFrames        = min(maxFrames, size(framesOriginal, 4));
 nFrames         = size(framesOriginal,4);
 
 fprintf('Packetising frames (one‑off)... ');
