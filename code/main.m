@@ -29,7 +29,8 @@ demo_p      = [1e-3 1e-3 1e-3  1e-1 1e-1 1e-1];   % six videos
 demo_scheme = {'none','1_2','ir',  'none','1_2','ir'};
 
 %% 1) HOUSEKEEPING ---------------------------------------------------------
-mkdir_if_missing('plots'); mkdir_if_missing('videos');
+mkdir_if_missing(fullfile(PROJECT_ROOT, 'plots'));
+mkdir_if_missing(fullfile(PROJECT_ROOT, 'videos'));
 
 %% 2) READ & CACHE VIDEO ---------------------------------------------------
 fprintf('Reading video ...\n');
@@ -90,21 +91,21 @@ figure;
 semilogx(p_vals, ber_half,'o-', p_vals, ber_ir,'s-','LineWidth',1.3);
 grid on; xlabel('Channel error probability p'); ylabel('BER');
 title('Coded BER vs p'); legend('Rate 1/2','Incremental redundancy','Location','NW');
-saveas(gcf, fullfile('plots','BER_plot.png'));
+saveas(gcf, fullfile(PROJECT_ROOT, 'plots', 'BER_plot.png'));
 
 figure;
 semilogx(p_vals, thr_ir,'^-','LineWidth',1.3); grid on;
 xlabel('Channel error probability p');
 ylabel('Throughput  (useful bits / sent bits)');
 title('Throughput vs p  (incremental redundancy)');
-saveas(gcf, fullfile('plots','Throughput_plot.png'));
+saveas(gcf, fullfile(PROJECT_ROOT, 'plots','Throughput_plot.png'));
 
 %% 5) SHOWCASE DECODING (6 videos) ---------------------------------------
 fprintf('\n*** Generating showcase videos ***\n');
 for k = 1:6
     pShow  = demo_p(k);
     scheme = demo_scheme{k};
-    outVid = sprintf('videos/decoded_%s_p%.0e.avi', scheme, pShow);
+    outVid = fullfile(PROJECT_ROOT, 'videos', sprintf('decoded_%s_p%.0e.avi', scheme, pShow));
 
     fprintf('→ %s (%d/%d)\n', outVid, k, 6);
     decoded = decode_video_cached(packetsPerFrame, framesOriginal, ...

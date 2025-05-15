@@ -11,6 +11,9 @@ projectRoot = fileparts(mfilename('fullpath'));
 addpath(genpath(projectRoot));
 fprintf('[startup] Added project and subfolders to MATLAB path.\n');
 
+% Save to base workspace so main.m can use it
+assignin('base', 'PROJECT_ROOT', projectRoot);
+
 % Change directory to /code if it exists
 codeDir = fullfile(projectRoot, 'code');
 if isfolder(codeDir)
